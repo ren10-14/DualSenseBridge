@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DualSenseBridge.Core/DualSenseBridge.Core.csproj" />
+    <Project Path="src/DualSenseBridge/DualSenseBridge.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DualSenseBridge.Tests/DualSenseBridge.Tests.csproj" />
+  </Folder>
+</Solution>

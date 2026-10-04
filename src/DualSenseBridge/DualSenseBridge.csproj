@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    DualSenseBridge — Windows-приложение (трей + GUI + CLI).
+    Ядро логики — в DualSenseBridge.Core (кроссплатформенное, тестируемое).
+    Сборка в ОДИН EXE: см. build.ps1 (self-contained, PublishSingleFile,
+    IncludeNativeLibrariesForSelfExtract, сжатие).
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>1.13.1</Version>
+    <AssemblyName>DualSenseBridge</AssemblyName>
+    <Product>DualSenseBridge</Product>
+    <Description>DualSense Bluetooth &lt;-&gt; виртуальный DualSense (VIIPER): адаптивные триггеры, вибрация, подсветка</Description>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <RootNamespace>DualSenseBridge.App</RootNamespace>
+    <!-- Кросс-компиляция под Windows возможна и на Linux (CI): подтягивает Windows reference packs. -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <InvariantGlobalization>false</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DualSenseBridge.Core\DualSenseBridge.Core.csproj" />
+  </ItemGroup>
+
+  <!--
+    viiper.exe (hbashton/VIIPER v0.1.2, GPL-3.0) вшит ВНУТРЬ приложения:
+    распаковывается в %LOCALAPPDATA%\DualSenseBridge и запускается скрытым
+    процессом "viiper.exe server". Отдельный процесс => GPL не распространяется
+    на наш код; лицензия кладётся рядом (viiper.licenses.txt).
+    Серверный режим - единственный, где есть адаптивные триггеры (dualsensegamepadv5);
+    во встроенной libVIIPER отдача ограничена rumble+RGB (проверено по libVIIPER.h).
+  -->
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\viiper.exe" />
+    <EmbeddedResource Include="Resources\viiper.licenses.txt" />
+  </ItemGroup>
+
+</Project>
